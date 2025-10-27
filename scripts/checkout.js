@@ -1,4 +1,4 @@
-import { cart, removeFromCart } from '../data/cart.js';
+import { cart, removeFromCart, updateDeliveryOption } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
@@ -80,18 +80,22 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
     const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
     html += `
-      <div class="delivery-option">
-        <input 
-          type="radio" 
+      <label class="delivery-option js-delivery-option"
+        data-product-id="${matchingProduct.id}"
+        data-delivery-option-id="${deliveryOption.id}"
+      >
+        <input
+          type="radio"
           class="delivery-option-input"
           name="delivery-option-${matchingProduct.id}"
-          ${isChecked ? 'checked' : ''}   
+          value="${deliveryOption.id}"
+          ${isChecked ? 'checked' : ''}
         />
         <div>
           <div class="delivery-option-date">${dateString}</div>
           <div class="delivery-option-price">${priceString} Shipping</div>
         </div>
-      </div>
+      </label>
     `;
   });
 
@@ -109,3 +113,13 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
     container.remove();
   });
 });
+
+const orderSummaryEl = document.querySelector('.js-order-summary');
+if (orderSummaryEl) {
+  orderSummaryEl.addEventListener('click', (e) => {
+    const wrapper = e.target.closest('.js-delivery-option');
+    if (!wrapper || !orderSummaryEl.contains(wrapper)) return;
+    const { productId, deliveryOptionId } = wrapper.dataset;
+    updateDeliveryOption(productId, deliveryOptionId);
+  });
+}
