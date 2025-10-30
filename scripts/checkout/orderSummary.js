@@ -1,4 +1,4 @@
-import { cart, removeFromCart, updateDeliveryOption } from '../../data/cart.js';
+import { cart, removeFromCart, updateDeliveryOption, updateCartQuantity } from '../../data/cart.js';
 import { products, getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
@@ -98,6 +98,7 @@ export function renderOrderSummary() {
       container.remove();
 
       renderPaymentSummary();
+      updateCartQuantity();
     });
   });
 

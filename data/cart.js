@@ -1,10 +1,27 @@
-export let cart = JSON.parse(localStorage.getItem('cart'));
+export function updateCartQuantity() {
+  // 计算总数量
+  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-if (!cart) {
-  cart = [];
+  // 更新页面上显示的数量
+  const cartQuantityElement = document.querySelector('.js-cart-quantity');
+  if (cartQuantityElement) {
+    cartQuantityElement.textContent = totalQuantity;
+  }
 }
 
-function saveToStorage() {
+export let cart;
+
+loadFromStorage();
+
+export function loadFromStorage() {
+  cart = JSON.parse(localStorage.getItem('cart'));
+
+  if (!cart) {
+    cart = [];
+  }
+}
+
+export function saveToStorage() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
