@@ -22,7 +22,7 @@ export function renderOrderSummary() {
     const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
     const dateString = deliveryDate.format('dddd,MMMM D');
 
-    cartSummaryHTML += `
+    cartSummaryHTML += /*html*/ `
       <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
         <div class="delivery-date">Delivery date: ${dateString}</div>
 
@@ -64,7 +64,7 @@ export function renderOrderSummary() {
 
       const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
-      html += `
+      html += /*html*/ `
         <label class="delivery-option js-delivery-option"
           data-product-id="${matchingProduct.id}"
           data-delivery-option-id="${deliveryOption.id}"
